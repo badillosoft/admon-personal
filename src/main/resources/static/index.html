@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Administrador de Personal y Proyectos</title>
+		<link rel="stylesheet" href="dashboard.css">
+		<link rel="stylesheet" href="form.css">
+		<link rel="stylesheet" href="menu.css">
+		<style>
+			* {
+	            margin: 0px;
+	            padding: 0px;
+	            box-sizing: border-box;
+	        }
+	        .app {
+	        	position: absolute;
+	        	width: calc(100% - 300px);
+	        	height: 100%;
+	        	left: 300px;
+	            display: flex;
+	            flex-direction: column;
+	            justify-content: center;
+	            align-items: center;
+	            overflow-y: auto;
+	            z-index: -10;
+	        }
+		</style>
+	</head>
+	<body>
+		<div class="menu">
+	        <div class="container">
+	            <div class="user">
+	                <img src="http://placehold.it/300" alt="imagen del usuario">
+	                <h1>John Doe</h1>
+	            </div>
+	            <div class="categories">
+	                <div class="category">
+	                    <h1>Personal</h1>
+	                    <ul>
+	                        <li><a href="#personal">Todos</a></li>
+	                        <li><a href="#personal_buscar">Buscar</a></li>
+	                        <li><a href="#personal_nuevo">Nuevo</a></li>
+	                        <li><a href="#personal_actualizar">Actualizar</a></li>
+	                        <li><a href="#personal_eliminar">Eliminar</a></li>
+	                    </ul>
+	                </div>
+	                <div class="category">
+	                    <h1>Proyectos</h1>
+	                    <ul>
+	                        <li><a href="#">Todos</a></li>
+	                        <li><a href="#">Buscar</a></li>
+	                        <li><a href="#">Nuevo</a></li>
+	                        <li><a href="#">Actualizar</a></li>
+	                        <li><a href="#">Eliminar</a></li>
+	                    </ul>
+	                </div>
+	                <div class="category">
+	                    <h1>Puestos</h1>
+	                    <ul>
+	                        <li><a href="#">Todos</a></li>
+	                        <li><a href="#">Buscar</a></li>
+	                        <li><a href="#">Nuevo</a></li>
+	                        <li><a href="#">Actualizar</a></li>
+	                        <li><a href="#">Eliminar</a></li>
+	                    </ul>
+	                </div>
+	                <div class="category">
+	                    <h1>Gastos</h1>
+	                    <ul>
+	                        <li><a href="#">Todos</a></li>
+	                        <li><a href="#">Buscar</a></li>
+	                        <li><a href="#">Nuevo</a></li>
+	                        <li><a href="#">Actualizar</a></li>
+	                        <li><a href="#">Eliminar</a></li>
+	                    </ul>
+	                </div>
+	                <div class="category">
+	                    <h1>Facturas</h1>
+	                    <ul>
+	                        <li><a href="#">Todos</a></li>
+	                        <li><a href="#">Buscar</a></li>
+	                        <li><a href="#">Nuevo</a></li>
+	                        <li><a href="#">Actualizar</a></li>
+	                        <li><a href="#">Eliminar</a></li>
+	                    </ul>
+	                </div>
+	                <div class="category">
+	                    <h1>Asignación de Personal a Proyectos</h1>
+	                    <ul>
+	                        <li><a href="#">Todos</a></li>
+	                        <li><a href="#">Buscar</a></li>
+	                        <li><a href="#">Nuevo</a></li>
+	                        <li><a href="#">Actualizar</a></li>
+	                        <li><a href="#">Eliminar</a></li>
+	                    </ul>
+	                </div>
+	                <div class="category">
+	                    <h1>Asignación de Personal a Puestos</h1>
+	                    <ul>
+	                        <li><a href="#">Todos</a></li>
+	                        <li><a href="#">Buscar</a></li>
+	                        <li><a href="#">Nuevo</a></li>
+	                        <li><a href="#">Actualizar</a></li>
+	                        <li><a href="#">Eliminar</a></li>
+	                    </ul>
+	                </div>
+	                <div class="category">
+	                    <h1>Registro de Gastos a Proyectos</h1>
+	                    <ul>
+	                        <li><a href="#">Todos</a></li>
+	                        <li><a href="#">Buscar</a></li>
+	                        <li><a href="#">Nuevo</a></li>
+	                        <li><a href="#">Actualizar</a></li>
+	                        <li><a href="#">Eliminar</a></li>
+	                    </ul>
+	                </div>
+	                <div class="category">
+	                    <h1>Registro de Insumos a Proyectos</h1>
+	                    <ul>
+	                        <li><a href="#">Todos</a></li>
+	                        <li><a href="#">Buscar</a></li>
+	                        <li><a href="#">Nuevo</a></li>
+	                        <li><a href="#">Actualizar</a></li>
+	                        <li><a href="#">Eliminar</a></li>
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+		<div class="app"></div>
+		<script src="dashboard.js"></script>
+		<script src="form.js"></script>
+		<script src="config.js"></script>
+		<script>
+			function clear_dom(el) {
+				while(el.firstChild) {
+					el.removeChild(el.firstChild);
+				}
+			}
+			
+			async function update_tab() {
+				const tab = window.location.toString().split("#")[1];
+								
+				console.log("Abriendo la pestaña", tab);
+				
+				clear_dom(app);
+				
+				if (tab === "personal") {
+					const dashboard_personal = new Dashboard(app, "Personal");
+					dashboard_personal.mapping({
+						fecha_ingreso: value => new Date(value).toDateString(),
+					});
+					dashboard_personal.ignore(["ap_paterno", "ap_materno", "curp" ]);
+					dashboard_personal.collect("/api/personal/all", data => {
+						return data.map(personal => {
+							personal.nombre = `${personal.ap_paterno} ${personal.ap_materno} ${personal.nombre}`;
+							return personal;
+						});
+					});
+				} else if (tab === "personal_buscar") {
+					let dashboard_personal = null;
+					const form_personal = new Form(app, {
+						title: "Buscar Personal por Id",
+						url: "/api/personal/find",
+						method: "get",
+						fields: [
+							{
+								id: "id",
+								type: "text",
+								placeholder: "Id"
+							},
+							{
+								type: "submit",
+								value: "buscar"
+							}
+						],
+						success: data => {
+							dashboard_personal.refresh([data || {}]);
+						}
+					});
+					dashboard_personal = new Dashboard(app, "Personal");
+					dashboard_personal.mapping({
+						fecha_ingreso: value => new Date(value).toDateString(),
+					});
+					dashboard_personal.ignore(["ap_paterno", "ap_materno", "curp" ]);
+				} else if (tab === "personal_nuevo") {
+					const form_create_personal = await load_config("form_create_personal");
+					
+					const form_personal = new Form(app, Object.assign({
+						error: error => {
+							alert("No se puede crear el Personal, revisa los campos");
+						},
+						success: result => {
+							alert(`Personal creado con el id: ${result.id}`);
+							dashboard_personal.collect("/api/personal/all", data => {
+								return data.map(personal => {
+									personal.nombre = `${personal.ap_paterno} ${personal.ap_materno} ${personal.nombre}`;
+									return personal;
+								});
+							});
+						}
+					}, form_create_personal));
+				}
+			}
+		
+			const app = document.querySelector(".app");
+			
+			for (let a of document.querySelectorAll("a")) {
+				a.onclick = () => {
+					setTimeout(() => {
+						update_tab();
+					}, 100);
+				};
+			}
+			
+			update_tab();
+		</script>
+	</body>
+</html>

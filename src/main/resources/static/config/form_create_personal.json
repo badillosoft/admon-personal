@@ -1,0 +1,49 @@
+{
+	"title": "Crear Nuevo Personal",
+	"url": "/api/personal/create",
+	"fields": [
+		{
+			"id": "id",
+			"type": "hidden",
+			"value": "0"
+		},
+		{
+			"id": "nombre",
+			"type": "text",
+			"placeholder": "Nombre"
+		},
+		{
+			"id": "ap_paterno",
+			"type": "text",
+			"placeholder": "Apellido Paterno"
+		},
+		{
+			"id": "ap_materno",
+			"type": "text",
+			"placeholder": "Apellido Materno"
+		},
+		{
+			"id": "rfc",
+			"type": "text",
+			"placeholder": "RFC"
+		},
+		{
+			"id": "curp",
+			"type": "text",
+			"placeholder": "CURP"
+		},
+		{
+			"id": "fecha_ingreso",
+			"type": "date"
+		},
+		{
+			"id": "estatus",
+			"type": "text",
+			"placeholder": "Estatus"
+		},
+		{
+			"type": "submit",
+			"value": "enviar"
+		}
+	]
+}

@@ -1,0 +1,51 @@
+.menu {
+    position: absolute;
+    width: 300px;
+    height: 100%;
+    background-color: #efefef;
+    box-shadow: 2px 0px 4px 4px rgba(127, 127, 127, 0.2);
+}
+.container {
+    height: 100%;
+    overflow-y: auto;
+}
+.user {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #aaaaaa;
+    margin-bottom: 20px;
+}
+.user img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    padding: 10px;
+}
+.user h1 {
+    font-size: 1.5em;
+    color: #333333;
+}
+.categories {
+    margin-left: 20px;
+}
+.category {
+    margin-bottom: 10px;
+}
+.category h1 {
+    font-size: 1em;
+    color: crimson;
+}
+.category li {
+    list-style: none;
+    margin-left: 20px;
+}
+.category li a {
+    text-decoration: none;
+    color: #333333;
+}
+.category li a:hover {
+    color: cornflowerblue;
+}
