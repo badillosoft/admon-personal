@@ -149,6 +149,12 @@
 					const dashboard_personal = new Dashboard(app, "Personal");
 					dashboard_personal.mapping({
 						fecha_ingreso: value => new Date(value).toDateString(),
+						foto: value => {
+							if (value) {
+								return `<img src="data:image/bmp;base64,${value}">`;
+							}
+							return "Sin foto";
+						}
 					});
 					dashboard_personal.ignore(["ap_paterno", "ap_materno", "curp" ]);
 					dashboard_personal.collect("/api/personal/all", data => {
@@ -181,6 +187,12 @@
 					dashboard_personal = new Dashboard(app, "Personal");
 					dashboard_personal.mapping({
 						fecha_ingreso: value => new Date(value).toDateString(),
+						foto: value => {
+							if (value) {
+								return `<img src="data:image/bmp;base64,${value}">`;
+							}
+							return "Sin foto";
+						}
 					});
 					dashboard_personal.ignore(["ap_paterno", "ap_materno", "curp" ]);
 				} else if (tab === "personal_nuevo") {
@@ -192,12 +204,6 @@
 						},
 						success: result => {
 							alert(`Personal creado con el id: ${result.id}`);
-							dashboard_personal.collect("/api/personal/all", data => {
-								return data.map(personal => {
-									personal.nombre = `${personal.ap_paterno} ${personal.ap_materno} ${personal.nombre}`;
-									return personal;
-								});
-							});
 						}
 					}, form_create_personal));
 				}

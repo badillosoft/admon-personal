@@ -53,6 +53,8 @@ class Form {
 				} catch(e) {
 					console.log("fecha inválida");
 				}
+			} else if (el.type === "file") {
+				value = el.files[0];
 			}
 			return el.name ? { [el.name]: value } : {};
 		}).reduce((p, c) => {
@@ -72,6 +74,7 @@ class Form {
 			formData.append(key, data[key]);
 			query.push(`${key}=${data[key]}`);
 		}
+		console.log(formData);
 		const options = {
 			method: form.method
 		}

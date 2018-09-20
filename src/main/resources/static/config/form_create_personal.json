@@ -42,6 +42,10 @@
 			"placeholder": "Estatus"
 		},
 		{
+			"id": "file",
+			"type": "file"
+		},
+		{
 			"type": "submit",
 			"value": "enviar"
 		}

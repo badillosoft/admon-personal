@@ -1,12 +1,12 @@
 package com.quat.model;
 
-import java.sql.Blob;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -32,7 +32,8 @@ public class Personal {
 	
 	String estatus;
 	
-	Blob foto;
+	@Lob
+    private byte[] foto;
 
 	public Integer getId() {
 		return id;
@@ -98,11 +99,11 @@ public class Personal {
 		this.estatus = estatus;
 	}
 
-	public Blob getFoto() {
+	public byte[] getFoto() {
 		return foto;
 	}
 
-	public void setFoto(Blob foto) {
+	public void setFoto(byte[] foto) {
 		this.foto = foto;
 	}
 

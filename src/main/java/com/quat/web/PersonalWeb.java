@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.quat.model.Personal;
 import com.quat.service.PersonalService;
@@ -20,12 +21,17 @@ public class PersonalWeb {
 	@Autowired
 	PersonalService personalService;
 	
+	@PostMapping("/photo")
+	public Personal uploadPhoto(@ModelAttribute Personal personal, @RequestParam MultipartFile file) throws Exception {
+		return personalService.uploadPhoto(personal, file);
+	}
+	
 	// CRUD
 	
 	// CREATE
 	@PostMapping("/create")
-	public Personal create(@ModelAttribute Personal personal) throws Exception {
-		return personalService.create(personal);
+	public Personal create(@ModelAttribute Personal personal, @RequestParam MultipartFile file) throws Exception {
+		return personalService.create(personal, file);
 	}
 	
 	// READ

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.quat.model.Personal;
 import com.quat.repository.PersonalRepository;
@@ -14,15 +15,21 @@ public class PersonalService {
 	@Autowired
 	PersonalRepository personalRepository;
 	
+	public Personal uploadPhoto(Personal personal, MultipartFile file) throws Exception {
+		personal.setFoto(file.getBytes());
+		
+		return personalRepository.save(personal);
+	}
+	
 	// CRUD - CREATE / READ / UPDATE / DELETE
 	
 	// CREATE
-	public Personal create(Personal personal) throws Exception {
+	public Personal create(Personal personal, MultipartFile file) throws Exception {
 		Optional<Personal> personalOptional = personalRepository.findById(personal.getId());
 		if (personalOptional.isPresent()) {
 			throw new Exception("La entidad ya existe en la base de datos");
 		}
-		return personalRepository.save(personal);
+		return uploadPhoto(personal, file);
 	}
 	
 	// READ
