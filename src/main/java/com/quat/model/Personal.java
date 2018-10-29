@@ -31,6 +31,16 @@ public class Personal {
 	Timestamp fecha_ingreso;
 	
 	String estatus;
+
+	Boolean activo;
+
+	public Boolean isActivo() {
+		return this.activo;
+	}
+
+	public void setActivo(Boolean activo) {
+		this.activo = activo;
+	}
 	
 	@Lob
     private byte[] foto;

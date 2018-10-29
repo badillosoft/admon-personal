@@ -10,44 +10,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quat.model.Puesto;
-import com.quat.service.PuestoService;
+import com.quat.model.Credencial;
+import com.quat.service.CredencialService;
 
 @RestController
-@RequestMapping("/api/puesto")
-public class PuestoWeb {
+@RequestMapping("/api/credencial")
+public class CredencialWeb {
 
 	@Autowired
-	PuestoService entityService;
+	CredencialService entityService;
 	
 	// CRUD
 	
 	// CREATE
 	@PostMapping("/create")
-	public Puesto create(@ModelAttribute Puesto entity) throws Exception {
+	public Credencial create(@ModelAttribute Credencial entity) throws Exception {
 		return entityService.create(entity);
+	}
+
+	@PostMapping("/login")
+	public Integer login(@RequestParam String correo, @RequestParam String contraseña) {
+		return entityService.login(correo, contraseña);
 	}
 	
 	// READ
 	@GetMapping("/all")
-	public Iterable<Puesto> getAll() {
+	public Iterable<Credencial> getAll() {
 		return entityService.getAll();
 	}
 	
 	@GetMapping("/find")
-	public Optional<Puesto> getWithId(@RequestParam Integer id) {
+	public Optional<Credencial> getWithId(@RequestParam Integer id) {
 		return entityService.getWithId(id);
 	}
 	
 	// UPDATE
 	@PostMapping("/update")
-	public Puesto update(@ModelAttribute Puesto entity) throws Exception {
+	public Credencial update(@ModelAttribute Credencial entity) throws Exception {
 		return entityService.update(entity);
 	}
 	
 	// DELETE
 	@PostMapping("/delete")
-	public Puesto delete(@ModelAttribute Puesto entity) throws Exception {
+	public Credencial delete(@ModelAttribute Credencial entity) throws Exception {
 		return entityService.delete(entity);
 	}
 	

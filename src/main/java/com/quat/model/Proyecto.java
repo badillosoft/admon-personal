@@ -29,6 +29,16 @@ public class Proyecto {
 	
 	Float retorno_esperado;
 
+	Boolean activo;
+
+	public Boolean isActivo() {
+		return this.activo;
+	}
+
+	public void setActivo(Boolean activo) {
+		this.activo = activo;
+	}
+
 	public Integer getId() {
 		return id;
 	}

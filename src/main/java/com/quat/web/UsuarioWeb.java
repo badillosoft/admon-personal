@@ -10,44 +10,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quat.model.Puesto;
-import com.quat.service.PuestoService;
+import com.quat.model.Usuario;
+import com.quat.service.UsuarioService;
 
 @RestController
-@RequestMapping("/api/puesto")
-public class PuestoWeb {
+@RequestMapping("/api/usuario")
+public class UsuarioWeb {
 
 	@Autowired
-	PuestoService entityService;
+	UsuarioService entityService;
 	
 	// CRUD
 	
 	// CREATE
 	@PostMapping("/create")
-	public Puesto create(@ModelAttribute Puesto entity) throws Exception {
+	public Usuario create(@ModelAttribute Usuario entity) throws Exception {
 		return entityService.create(entity);
 	}
 	
 	// READ
 	@GetMapping("/all")
-	public Iterable<Puesto> getAll() {
+	public Iterable<Usuario> getAll() {
 		return entityService.getAll();
 	}
 	
 	@GetMapping("/find")
-	public Optional<Puesto> getWithId(@RequestParam Integer id) {
+	public Optional<Usuario> getWithId(@RequestParam Integer id) {
 		return entityService.getWithId(id);
 	}
 	
 	// UPDATE
 	@PostMapping("/update")
-	public Puesto update(@ModelAttribute Puesto entity) throws Exception {
+	public Usuario update(@ModelAttribute Usuario entity) throws Exception {
 		return entityService.update(entity);
 	}
 	
 	// DELETE
 	@PostMapping("/delete")
-	public Puesto delete(@ModelAttribute Puesto entity) throws Exception {
+	public Usuario delete(@ModelAttribute Usuario entity) throws Exception {
 		return entityService.delete(entity);
 	}
 	

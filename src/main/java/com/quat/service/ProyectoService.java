@@ -22,6 +22,7 @@ public class ProyectoService {
 		if (proyectoOptional.isPresent()) {
 			throw new Exception("La entidad ya existe en la base de datos");
 		}
+		proyecto.setActivo(true);
 		return proyectoRepository.save(proyecto);
 	}
 	
@@ -40,6 +41,7 @@ public class ProyectoService {
 		if (!proyectoOptional.isPresent()) {
 			throw new Exception("La entidad no existe en la base de datos");
 		}
+		proyecto.setActivo(true);
 		return proyectoRepository.save(proyecto);
 	}
 	
@@ -49,7 +51,8 @@ public class ProyectoService {
 		if (!proyectoOptional.isPresent()) {
 			throw new Exception("La entidad no existe en la base de datos");
 		}
-		proyectoRepository.delete(proyecto);
+		proyecto.setActivo(false);
+		proyectoRepository.save(proyecto);
 		return proyecto;
 	}
 	

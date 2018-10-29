@@ -10,44 +10,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quat.model.Puesto;
-import com.quat.service.PuestoService;
+import com.quat.model.Rol;
+import com.quat.service.RolService;
 
 @RestController
-@RequestMapping("/api/puesto")
-public class PuestoWeb {
+@RequestMapping("/api/rol")
+public class RolWeb {
 
 	@Autowired
-	PuestoService entityService;
+	RolService entityService;
 	
 	// CRUD
 	
 	// CREATE
 	@PostMapping("/create")
-	public Puesto create(@ModelAttribute Puesto entity) throws Exception {
+	public Rol create(@ModelAttribute Rol entity) throws Exception {
 		return entityService.create(entity);
 	}
 	
 	// READ
 	@GetMapping("/all")
-	public Iterable<Puesto> getAll() {
+	public Iterable<Rol> getAll() {
 		return entityService.getAll();
+	}
+
+	@GetMapping("/usuario")
+	public Iterable<Rol> getARoles(@RequestParam Integer id_usuario) {
+		return entityService.getRoles(id_usuario);
 	}
 	
 	@GetMapping("/find")
-	public Optional<Puesto> getWithId(@RequestParam Integer id) {
+	public Optional<Rol> getWithId(@RequestParam Integer id) {
 		return entityService.getWithId(id);
 	}
 	
 	// UPDATE
 	@PostMapping("/update")
-	public Puesto update(@ModelAttribute Puesto entity) throws Exception {
+	public Rol update(@ModelAttribute Rol entity) throws Exception {
 		return entityService.update(entity);
 	}
 	
 	// DELETE
 	@PostMapping("/delete")
-	public Puesto delete(@ModelAttribute Puesto entity) throws Exception {
+	public Rol delete(@ModelAttribute Rol entity) throws Exception {
 		return entityService.delete(entity);
 	}
 	
