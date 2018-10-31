@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.quat.model.Gasto;
+import com.quat.model.Proyecto;
 import com.quat.service.GastoService;
+import com.quat.service.ProyectoService;
 
 @RestController
 @RequestMapping("/api/gasto")
@@ -19,12 +21,25 @@ public class GastoWeb {
 
 	@Autowired
 	GastoService gastoService;
+
+	@Autowired
+	ProyectoService proyectoService;
 	
 	// CRUD
 	
 	// CREATE
 	@PostMapping("/create")
-	public Gasto create(@ModelAttribute Gasto gasto) throws Exception {
+	public Gasto create(@ModelAttribute Gasto gasto, @RequestParam Integer proyecto_id) throws Exception {
+		Optional<Proyecto> pOptional = proyectoService.getWithId(proyecto_id);
+
+		if (!pOptional.isPresent()) {
+			throw new Exception("No existe el proyecto");
+		}
+
+		Proyecto proyecto = pOptional.get();
+
+		gasto.setProyecto(proyecto);
+		
 		return gastoService.create(gasto);
 	}
 	
@@ -42,6 +57,10 @@ public class GastoWeb {
 	// UPDATE
 	@PostMapping("/update")
 	public Gasto update(@ModelAttribute Gasto gasto) throws Exception {
+		Gasto original = gastoService.getWithId(gasto.getId()).get();
+
+		gasto.setProyecto(original.getProyecto());
+		
 		return gastoService.update(gasto);
 	}
 	
