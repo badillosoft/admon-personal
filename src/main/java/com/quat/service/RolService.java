@@ -1,11 +1,13 @@
 package com.quat.service;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.quat.model.Perfil;
 import com.quat.model.Rol;
 import com.quat.model.Usuario;
 import com.quat.repository.RolRepository;
@@ -43,11 +45,21 @@ public class RolService {
 		}
 		Usuario usuario = usuarioOpt.get();
 
-		return usuario.getPerfil().getRoles();
+		Set<Rol> roles = new HashSet<>();
+
+		for (Perfil perfil : usuario.getPerfiles()) {
+			roles.addAll(perfil.getRoles());
+		}
+
+		return roles;
 	}
 	
 	public Optional<Rol> getWithId(Integer id) {
 		return entityRepository.findById(id);
+	}
+
+	public Optional<Rol> getWithNombre(String nombre) {
+		return entityRepository.findByNombre(nombre);
 	}
 	
 	// UPDATE

@@ -1,9 +1,12 @@
 package com.quat.model;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -32,15 +35,15 @@ public class Usuario {
         this.credencial = credencial;
     }
 
-    @OneToOne
-    Perfil perfil;
+    @ManyToMany
+    Set<Perfil> perfiles;
 
-    public Perfil getPerfil() {
-        return this.perfil;
+    public Set<Perfil> getPerfiles() {
+        return this.perfiles;
     }
 
-    public void setPerfil(Perfil perfil) {
-        this.perfil = perfil;
+    public void setPerfiles(Set<Perfil> perfiles) {
+        this.perfiles = perfiles;
     }
 
     Boolean activo;

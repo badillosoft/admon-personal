@@ -33,6 +33,10 @@ public class PerfilService {
 	public Optional<Perfil> getWithId(Integer id) {
 		return entityRepository.findById(id);
 	}
+
+	public Optional<Perfil> getWithNombre(String nombre) {
+		return entityRepository.findByNombre(nombre);
+	}
 	
 	// UPDATE
 	public Perfil update(Perfil entity) throws Exception {

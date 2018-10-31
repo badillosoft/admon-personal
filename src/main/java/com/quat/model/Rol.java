@@ -33,14 +33,14 @@ public class Rol {
     }
 
     @NotNull
-    String accion;
+    String permiso;
 
-    public String getAccion() {
-        return this.accion;
+    public String getPermiso() {
+        return this.permiso;
     }
 
-    public void setAccion(String accion) {
-        this.accion = accion;
+    public void setPermiso(String permiso) {
+        this.permiso = permiso;
     }
 
     String descripcion;
