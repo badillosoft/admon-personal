@@ -56,5 +56,9 @@ public class CredencialService {
 	public Integer login(String correo, String contraseña) {
 		return entityRepository.login(correo, contraseña);
 	}
+
+	public boolean existsCorreo(String correo) {
+		return entityRepository.existsByCorreo(correo);
+	}
 	
 }

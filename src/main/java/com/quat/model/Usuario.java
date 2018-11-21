@@ -25,6 +25,18 @@ public class Usuario {
     }
 
     @OneToOne
+    Personal personal;
+
+    public Personal getPersonal() {
+        return this.personal;
+    }
+
+    public void setPersonal(Personal personal) {
+        this.personal = personal;
+    }
+    
+
+    @OneToOne
     Credencial credencial;
 
     public Credencial getCredencial() {

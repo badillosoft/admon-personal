@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.quat.model.Credencial;
 import com.quat.model.Perfil;
+import com.quat.model.Personal;
 import com.quat.model.Usuario;
 import com.quat.service.CredencialService;
 import com.quat.service.PerfilService;
+import com.quat.service.PersonalService;
 import com.quat.service.UsuarioService;
 
 @RestController
@@ -24,37 +26,28 @@ import com.quat.service.UsuarioService;
 public class UsuarioWeb {
 
 	@Autowired
-	UsuarioService entityService;
+	UsuarioService usuarioService;
 
 	@Autowired
 	PerfilService perfilService;
 
 	@Autowired
 	CredencialService credencialService;
+
+	@Autowired
+	PersonalService personalService;
 	
 	// CRUD
 	
 	// CREATE
 	@PostMapping("/create")
-	public Usuario create(@ModelAttribute Usuario entity, @RequestParam String correo, @RequestParam String contraseña) throws Exception {
-		Credencial credencial = new Credencial();
-
-		credencial.setId(0);
-		credencial.setCorreo(correo);
-		credencial.setContraseña(contraseña);
-		
-		credencial = credencialService.create(credencial);
-
-		entity.setCredencial(credencial);
-
-		entity.setActivo(true);
-
-		return entityService.create(entity);
+	public Usuario create(@RequestParam String correo, @RequestParam String contraseña, @RequestParam Integer max_intentos, @RequestParam Integer id_personal) throws Exception {
+		return usuarioService.create(correo, contraseña, max_intentos, id_personal);
 	}
 
 	@GetMapping("/remove/perfil")
 	public Usuario removePerfil(@RequestParam Integer id_usuario, @RequestParam String perfil) throws Exception {
-		Optional<Usuario> uOptional = entityService.getWithId(id_usuario);
+		Optional<Usuario> uOptional = usuarioService.getWithId(id_usuario);
 		if (!uOptional.isPresent()) {
 			return null;
 		}
@@ -67,13 +60,13 @@ public class UsuarioWeb {
 		Set<Perfil> perfiles = usuario.getPerfiles();
 		perfiles.remove(perfil_);
 		usuario.setPerfiles(perfiles);
-		entityService.update(usuario);
+		usuarioService.update(usuario);
 		return usuario;
 	}
 
 	@GetMapping("/add/perfil")
 	public Usuario addPerfil(@RequestParam Integer id_usuario, @RequestParam String perfil) throws Exception {
-		Optional<Usuario> uOptional = entityService.getWithId(id_usuario);
+		Optional<Usuario> uOptional = usuarioService.getWithId(id_usuario);
 		if (!uOptional.isPresent()) {
 			return null;
 		}
@@ -89,25 +82,25 @@ public class UsuarioWeb {
 		}
 		perfiles.add(perfil_);
 		usuario.setPerfiles(perfiles);
-		entityService.update(usuario);
+		usuarioService.update(usuario);
 		return usuario;
 	}
 	
 	// READ
 	@GetMapping("/all")
 	public Iterable<Usuario> getAll() {
-		return entityService.getAll();
+		return usuarioService.getAll();
 	}
 	
 	@GetMapping("/find")
 	public Optional<Usuario> getWithId(@RequestParam Integer id) {
-		return entityService.getWithId(id);
+		return usuarioService.getWithId(id);
 	}
 	
 	// UPDATE
 	@PostMapping("/update")
 	public Usuario update(@RequestParam Integer id, @RequestParam String correo, @RequestParam String contraseña) throws Exception {
-		Optional<Usuario> uOptional = entityService.getWithId(id);
+		Optional<Usuario> uOptional = usuarioService.getWithId(id);
 
 		if (!uOptional.isPresent()) {
 			throw new Exception("El usuario no es válido");
@@ -122,13 +115,13 @@ public class UsuarioWeb {
 
 		usuario.setCredencial(credencial);
 
-		return entityService.update(usuario);
+		return usuarioService.update(usuario);
 	}
 	
 	// DELETE
 	@PostMapping("/delete")
 	public Usuario delete(@ModelAttribute Usuario entity) throws Exception {
-		return entityService.delete(entity);
+		return usuarioService.delete(entity);
 	}
 	
 }
