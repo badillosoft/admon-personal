@@ -16,7 +16,9 @@ public class PersonalService {
 	PersonalRepository personalRepository;
 	
 	public Personal uploadPhoto(Personal personal, MultipartFile file) throws Exception {
-		personal.setFoto(file.getBytes());
+		if (file != null) {
+			personal.setFoto(file.getBytes());
+		}
 		
 		return personalRepository.save(personal);
 	}

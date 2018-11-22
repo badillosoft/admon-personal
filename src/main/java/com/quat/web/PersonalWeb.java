@@ -30,8 +30,8 @@ public class PersonalWeb {
 	
 	// CREATE
 	@PostMapping("/create")
-	public Personal create(@ModelAttribute Personal personal, @RequestParam MultipartFile file) throws Exception {
-		return personalService.create(personal, file);
+	public Personal create(@ModelAttribute Personal personal) throws Exception {
+		return personalService.create(personal, null);
 	}
 	
 	// READ
