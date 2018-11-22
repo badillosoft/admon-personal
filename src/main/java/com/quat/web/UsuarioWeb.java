@@ -41,17 +41,19 @@ public class UsuarioWeb {
 	
 	// CREATE
 	@PostMapping("/create")
-	public Usuario create(@RequestParam String correo, @RequestParam String contraseña, @RequestParam Integer max_intentos, @RequestParam Integer id_personal) throws Exception {
-		return usuarioService.create(correo, contraseña, max_intentos, id_personal);
+	public Usuario create(@RequestParam String correo, @RequestParam String contraseña, 
+		@RequestParam Integer max_intentos, @RequestParam Integer personal_id) throws Exception {
+		return usuarioService.create(correo, contraseña, max_intentos, personal_id);
 	}
 
 	@GetMapping("/remove/perfil")
-	public Usuario removePerfil(@RequestParam Integer id_usuario, @RequestParam String perfil) throws Exception {
+	public Usuario removePerfil(@RequestParam Integer id_usuario, 
+		@RequestParam Integer perfil_id) throws Exception {
 		Optional<Usuario> uOptional = usuarioService.getWithId(id_usuario);
 		if (!uOptional.isPresent()) {
 			return null;
 		}
-		Optional<Perfil> pOptional = perfilService.getWithNombre(perfil);
+		Optional<Perfil> pOptional = perfilService.getWithId(perfil_id);
 		if (!pOptional.isPresent()) {
 			return null;
 		}
@@ -65,12 +67,13 @@ public class UsuarioWeb {
 	}
 
 	@GetMapping("/add/perfil")
-	public Usuario addPerfil(@RequestParam Integer id_usuario, @RequestParam String perfil) throws Exception {
+	public Usuario addPerfil(@RequestParam Integer id_usuario,
+		@RequestParam Integer perfil_id) throws Exception {
 		Optional<Usuario> uOptional = usuarioService.getWithId(id_usuario);
 		if (!uOptional.isPresent()) {
 			return null;
 		}
-		Optional<Perfil> pOptional = perfilService.getWithNombre(perfil);
+		Optional<Perfil> pOptional = perfilService.getWithId(perfil_id);
 		if (!pOptional.isPresent()) {
 			return null;
 		}
@@ -99,23 +102,12 @@ public class UsuarioWeb {
 	
 	// UPDATE
 	@PostMapping("/update")
-	public Usuario update(@RequestParam Integer id, @RequestParam String correo, @RequestParam String contraseña) throws Exception {
-		Optional<Usuario> uOptional = usuarioService.getWithId(id);
-
-		if (!uOptional.isPresent()) {
-			throw new Exception("El usuario no es válido");
-		}
-
-		Usuario usuario = uOptional.get();
-
-		Credencial credencial = usuario.getCredencial();
-
-		credencial.setCorreo(correo);
-		credencial.setContraseña(contraseña);
-
-		usuario.setCredencial(credencial);
-
-		return usuarioService.update(usuario);
+	public Usuario update(@RequestParam Integer id,
+		@RequestParam String correo, @RequestParam String contraseña,
+		@RequestParam Integer max_intentos, @RequestParam Integer intentos,
+		@RequestParam Integer personal_id) throws Exception {
+		return usuarioService.update(id, correo, contraseña, 
+			max_intentos, intentos, personal_id);
 	}
 	
 	// DELETE

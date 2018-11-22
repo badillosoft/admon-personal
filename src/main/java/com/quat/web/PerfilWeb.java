@@ -59,14 +59,14 @@ public class PerfilWeb {
 	}
 
 	@GetMapping("/remove/rol")
-	public Perfil removeRol(@RequestParam Integer id_perfil, @RequestParam String rol) throws Exception {
+	public Perfil removeRol(@RequestParam Integer id_perfil, @RequestParam Integer rol_id) throws Exception {
 		Optional<Perfil> pOptional = entityService.getWithId(id_perfil);
 		if (!pOptional.isPresent()) {
-			return null;
+			throw new Exception("No existe el perfil");
 		}
-		Optional<Rol> rOptional = rolService.getWithNombre(rol);
+		Optional<Rol> rOptional = rolService.getWithId(rol_id);
 		if (!rOptional.isPresent()) {
-			return null;
+			throw new Exception("No existe el rol");
 		}
 		Rol rol_ = rOptional.get();
 		Perfil perfil = pOptional.get();
@@ -78,14 +78,14 @@ public class PerfilWeb {
 	}
 
 	@GetMapping("/add/rol")
-	public Perfil addRol(@RequestParam Integer id_perfil, @RequestParam String rol) throws Exception {
+	public Perfil addRol(@RequestParam Integer id_perfil, @RequestParam Integer rol_id) throws Exception {
 		Optional<Perfil> pOptional = entityService.getWithId(id_perfil);
 		if (!pOptional.isPresent()) {
-			return null;
+			throw new Exception("No existe el perfil");
 		}
-		Optional<Rol> rOptional = rolService.getWithNombre(rol);
+		Optional<Rol> rOptional = rolService.getWithId(rol_id);
 		if (!rOptional.isPresent()) {
-			return null;
+			throw new Exception("No existe el rol");
 		}
 		Rol rol_ = rOptional.get();
 		Perfil perfil = pOptional.get();
@@ -98,5 +98,5 @@ public class PerfilWeb {
 		entityService.update(perfil);
 		return perfil;
 	}
-	
+
 }

@@ -33,8 +33,8 @@ public class UsuarioService {
 		return usuarioRepository.save(entity);
 	}
 
-	public Usuario create(String correo, String contraseña, Integer max_intentos, Integer id_personal) throws Exception {
-		Optional<Personal> personalOpt = personalService.getWithId(id_personal);
+	public Usuario create(String correo, String contraseña, Integer max_intentos, Integer personal_id) throws Exception {
+		Optional<Personal> personalOpt = personalService.getWithId(personal_id);
 
 		if (!personalOpt.isPresent()) {
 			throw new Exception("No existe el personal asociado");
@@ -44,8 +44,8 @@ public class UsuarioService {
 			throw new Exception("El correo ya está registrado");
 		}
 
-		if (usuarioRepository.existsByPersonalId(id_personal)) {
-			throw new Exception("El personal ya tiene asociado un correo");
+		if (usuarioRepository.existsByPersonalId(personal_id)) {
+			throw new Exception("El personal ya tiene asociado un usuario");
 		}
 		
 		Usuario usuario = new Usuario();
@@ -66,6 +66,65 @@ public class UsuarioService {
 
 		usuario.setCredencial(credencial);
 
+		usuario.setActivo(true);
+
+		return this.usuarioRepository.save(usuario);
+	}
+
+	public Usuario update(Integer id, String correo, String contraseña,
+		Integer max_intentos, Integer intentos,
+		Integer personal_id) throws Exception {
+		Optional<Usuario> uOptional = usuarioRepository.findById(id);
+
+		if (!uOptional.isPresent()) {
+			throw new Exception("El usuario no existe");
+		}
+
+		Optional<Personal> personalOpt = personalService.getWithId(personal_id);
+
+		if (!personalOpt.isPresent()) {
+			throw new Exception("No existe el personal asociado");
+		}
+
+		Usuario usuario = uOptional.get();
+		
+		Credencial credencial = usuario.getCredencial();
+
+		if (credencial == null || !credencial.getCorreo().equals(correo)) {
+			if (credencialService.existsCorreo(correo)) {
+				throw new Exception("El correo ya está registrado");
+			}
+			if (credencial == null) {
+				Credencial nuevaCredencial = new Credencial();
+
+				nuevaCredencial.setId(0);
+				nuevaCredencial.setCorreo(correo);
+				nuevaCredencial.setContraseña(contraseña);
+				nuevaCredencial.setMax_intentos(max_intentos);
+				nuevaCredencial.setIntentos(0);
+				
+				credencial = credencialService.create(nuevaCredencial);
+			}
+		}
+
+		credencial.setCorreo(correo);
+		credencial.setContraseña(contraseña);
+		credencial.setMax_intentos(max_intentos);
+		credencial.setIntentos(intentos);
+		
+		usuario.setCredencial(credencial);
+
+		Personal personal = usuario.getPersonal();
+
+		if (personal == null || personal.getId() != personal_id) {
+			if (usuarioRepository.existsByPersonalId(personal_id)) {
+				throw new Exception("El personal ya tiene asociado un usuario");
+			}
+			personal = personalOpt.get();
+		}
+
+		usuario.setPersonal(personal);
+		
 		usuario.setActivo(true);
 
 		return this.usuarioRepository.save(usuario);
