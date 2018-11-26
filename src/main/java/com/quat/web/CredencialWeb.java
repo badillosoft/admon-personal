@@ -29,7 +29,7 @@ public class CredencialWeb {
 	}
 
 	@PostMapping("/login")
-	public Integer login(@RequestParam String correo, @RequestParam String contraseña) {
+	public Integer login(@RequestParam String correo, @RequestParam String contraseña) throws Exception {
 		return entityService.login(correo, contraseña);
 	}
 	
